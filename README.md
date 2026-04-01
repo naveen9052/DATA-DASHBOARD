@@ -24,3 +24,16 @@ The goal is to demonstrate skills in **data cleaning, visualization, and reporti
 ---
 
 ## Project Structure
+dashboard/
+├── app.py              ← Flask server + all API routes
+├── data/
+│   ├── sales.csv
+│   ├── students.csv
+│   └── expenses.csv
+├── templates/
+│   └── index.html      ← Main HTML page
+└── static/
+    ├── css/style.css   ← All dark theme styling
+    └── js/main.js      ← Fetches API, renders charts & tables
+
+
