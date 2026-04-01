@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Python Data Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-icon">&#9670;</span>
+    <span class="logo-text">DataBoard</span>
+  </div>
+  <nav class="sidebar-nav">
+    <button class="nav-item active" data-tab="sales">
+      <span class="nav-icon">&#9650;</span> Sales
+    </button>
+    <button class="nav-item" data-tab="students">
+      <span class="nav-icon">&#9670;</span> Students
+    </button>
+    <button class="nav-item" data-tab="expenses">
+      <span class="nav-icon">&#9632;</span> Expenses
+    </button>
+    <button class="nav-item" data-tab="add">
+      <span class="nav-icon">&#43;</span> Add Data
+    </button>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="tech-badge">Python</span>
+    <span class="tech-badge">Flask</span>
+    <span class="tech-badge">Matplotlib</span>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h1 class="page-title" id="page-title">Sales Analysis</h1>
+      <span class="page-sub" id="page-sub">Live data from sales.csv</span>
+    </div>
+    <div class="topbar-right">
+      <span class="live-dot"></span>
+      <span class="live-text">Live</span>
+      <button class="refresh-btn" id="refresh-btn" onclick="refreshPage()">&#8635; Refresh</button>
+    </div>
+  </header>
+
+  <!-- SALES TAB -->
+  <section class="tab-section active" id="tab-sales">
+    <div class="metrics-row" id="sales-metrics">
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+    </div>
+    <div class="charts-grid-full">
+      <div class="chart-card" id="chart-sales-monthly">
+        <div class="chart-label">Monthly Revenue Trend</div>
+        <div class="chart-body"><div class="chart-loading">Loading chart...</div></div>
+      </div>
+    </div>
+    <div class="charts-grid-2">
+      <div class="chart-card" id="chart-sales-category">
+        <div class="chart-label">Revenue by Category</div>
+        <div class="chart-body"><div class="chart-loading">Loading chart...</div></div>
+      </div>
+      <div class="chart-card" id="chart-sales-products">
+        <div class="chart-label">Top 5 Products</div>
+        <div class="chart-body"><div class="chart-loading">Loading chart...</div></div>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="chart-label">Top Products Table</div>
+      <table class="data-table" id="sales-table">
+        <thead><tr><th>#</th><th>Product</th><th>Units Sold</th><th>Revenue</th><th>Share</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- STUDENTS TAB -->
+  <section class="tab-section" id="tab-students">
+    <div class="metrics-row" id="students-metrics">
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+    </div>
+    <div class="charts-grid-3">
+      <div class="chart-card" id="chart-stu-dist">
+        <div class="chart-label">Score Distribution</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+      <div class="chart-card" id="chart-stu-radar">
+        <div class="chart-label">Subject Radar</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+      <div class="chart-card" id="chart-stu-pass">
+        <div class="chart-label">Pass / Fail</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="chart-label">Subject Averages</div>
+      <table class="data-table" id="students-table">
+        <thead><tr><th>Subject</th><th>Average Score</th><th>Grade Band</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- EXPENSES TAB -->
+  <section class="tab-section" id="tab-expenses">
+    <div class="metrics-row" id="expenses-metrics">
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+      <div class="metric-card skeleton"></div>
+    </div>
+    <div id="alerts-container"></div>
+    <div class="charts-grid-3">
+      <div class="chart-card" id="chart-exp-cat">
+        <div class="chart-label">By Category</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+      <div class="chart-card" id="chart-exp-weekly">
+        <div class="chart-label">Weekly Trend</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+      <div class="chart-card" id="chart-exp-budget">
+        <div class="chart-label">vs Budget</div>
+        <div class="chart-body"><div class="chart-loading">Loading...</div></div>
+      </div>
+    </div>
+    <div class="table-card">
+      <div class="chart-label">Spending Breakdown</div>
+      <table class="data-table" id="expenses-table">
+        <thead><tr><th>Category</th><th>Amount</th><th>% of Total</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ADD DATA TAB -->
+  <section class="tab-section" id="tab-add">
+    <div class="add-grid">
+
+      <div class="form-card">
+        <div class="form-title">&#9650; Add New Sale</div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="sale-date"/>
+        </div>
+        <div class="form-group">
+          <label>Product</label>
+          <input type="text" id="sale-product" placeholder="e.g. Laptop Pro X"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="sale-category">
+            <option>Electronics</option><option>Clothing</option>
+            <option>Food</option><option>Sports</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Units</label>
+            <input type="number" id="sale-units" placeholder="10"/>
+          </div>
+          <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" id="sale-price" placeholder="5000"/>
+          </div>
+        </div>
+        <button class="submit-btn" onclick="addSale()">Add Sale</button>
+        <div class="form-msg" id="sale-msg"></div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-title">&#9632; Add Expense</div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" id="exp-date"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="exp-category">
+            <option>Food</option><option>Transport</option>
+            <option>Shopping</option><option>Bills</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="number" id="exp-amount" placeholder="500"/>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <input type="text" id="exp-desc" placeholder="e.g. Grocery shopping"/>
+        </div>
+        <button class="submit-btn" onclick="addExpense()">Add Expense</button>
+        <div class="form-msg" id="exp-msg"></div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-title">&#9670; Add Student Score</div>
+        <div class="form-group">
+          <label>Student Name</label>
+          <input type="text" id="stu-name" placeholder="e.g. Rahul"/>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <select id="stu-subject">
+            <option>Math</option><option>Science</option><option>English</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Score (0–100)</label>
+          <input type="number" id="stu-score" min="0" max="100" placeholder="85"/>
+        </div>
+        <div class="score-preview" id="score-preview">Grade will appear here</div>
+        <button class="submit-btn" onclick="addStudent()">Add Student</button>
+        <div class="form-msg" id="stu-msg"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
